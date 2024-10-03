@@ -10,7 +10,7 @@ using SupplyChain.Infra.Data.Context;
 
 namespace SupplyChain.Infra.Data.Migrations
 {
-    [DbContext(typeof(MercadoriaDbContext))]
+    [DbContext(typeof(InventarioDbContext))]
     partial class MercadoriaDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

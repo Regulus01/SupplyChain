@@ -5,7 +5,7 @@ using SupplyChain.Infra.Data.Maps;
 
 namespace SupplyChain.Infra.Data.Context;
 
-public class MercadoriaDbContext : DbContext
+public class InventarioDbContext : DbContext
 {
     public DbSet<Mercadoria> Mercadorias { get; set; }
     public DbSet<Entrada> Entradas { get; set; }

@@ -11,7 +11,7 @@ using SupplyChain.Infra.Data.Context;
 
 namespace SupplyChain.Infra.Data.Migrations
 {
-    [DbContext(typeof(MercadoriaDbContext))]
+    [DbContext(typeof(InventarioDbContext))]
     [Migration("20241003162910_initial")]
     partial class initial
     {
