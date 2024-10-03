@@ -27,20 +27,16 @@ public class MercadoriaAppService : IMercadoriaAppService
     {
         var mercadoria = CriarMercadoriaDomain(dto);
 
-        var tipoDeMercadoria = _repository.Query<TipoDeMercadoriaDomain>(x => x.Id.Equals(mercadoria.TipoMercadoriaId))
-                                          .FirstOrDefault();
-        
-        if (tipoDeMercadoria == null)
-        {
-            _bus.Notify.NewNotification(ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Code, 
-                                        ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Message);
-            return null;
-        }
-        
         if (!Validar(mercadoria))
         {
             return null;
         } 
+        
+        if (!ValidarTipoEMercadoriaExistente(mercadoria.NumeroDeRegistro, mercadoria.TipoMercadoriaId, 
+                                             out var tipoDeMercadoria))
+        {
+            return null;
+        }
         
         _repository.Add(mercadoria);
 
@@ -53,8 +49,42 @@ public class MercadoriaAppService : IMercadoriaAppService
 
         return _mapper.Map<CriarMercadoriaViewModel>(mercadoria, options =>
         {
-            options.Items["NomeDoTipoMercadoria"] = tipoDeMercadoria.Nome;
+            options.Items["NomeDoTipoMercadoria"] = tipoDeMercadoria?.Nome;
         });
+    }
+
+    /// <summary>
+    /// Valida se uma mercadoria já existe no sistema com o mesmo código e se o tipo de mercadoria fornecido é válido.
+    /// </summary>
+    /// <param name="codigoDaMercadoria">Código da mercadoria a ser verificado.</param>
+    /// <param name="tipoDaMercadoriaId">Identificador do tipo de mercadoria a ser validado.</param>
+    /// <param name="tipoDeMercadoria">Retorna o objeto TipoDeMercadoriaDomain correspondente se encontrado,
+    /// caso contrário, será null.</param>
+    /// <returns>Retorna <c>false</c> se a mercadoria está inválida e <c>true</c> caso válida.</returns>
+    private bool ValidarTipoEMercadoriaExistente(string codigoDaMercadoria, Guid tipoDaMercadoriaId,
+        out TipoDeMercadoriaDomain? tipoDeMercadoria)
+    {
+        tipoDeMercadoria = _repository.Query<TipoDeMercadoriaDomain>(x => x.Id.Equals(tipoDaMercadoriaId))
+                                      .FirstOrDefault();
+        
+        var mercadoria = _repository.Query<MercadoriaDomain>(x => x.NumeroDeRegistro.Equals(codigoDaMercadoria))
+            .FirstOrDefault();
+
+        if (mercadoria != null)
+        {
+            _bus.Notify.NewNotification(ErrorMessage.MER_CODIGOS_IGUAIS.Code, 
+                ErrorMessage.MER_CODIGOS_IGUAIS.Message);
+            return false;
+        }
+        
+        if (tipoDeMercadoria == null)
+        {
+            _bus.Notify.NewNotification(ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Code, 
+                ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Message);
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>

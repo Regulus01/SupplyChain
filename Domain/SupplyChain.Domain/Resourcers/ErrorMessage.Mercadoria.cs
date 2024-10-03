@@ -9,11 +9,14 @@ public partial class ErrorMessage
         ("Mer00x2", "O fabricante é obrigatório.");
     
     public static (string Code, string Message) MER_DESCRICAO_VAZIA =
-        ("Mer00x2", "A descrição é obrigatória.");
+        ("Mer00x3", "A descrição é obrigatória.");
     
     public static (string Code, string Message) MER_NUM_REGISTRO_COM_ESPACOS =
-        ("Mer00x3", "O numero de registro possui caracters em branco.");
+        ("Mer00x4", "O numero de registro possui caracters em branco.");
     
     public static (string Code, string Message) MER_TIPO_MERCADORIA_VAZIO =
-        ("Mer00x3", "É necessário informar um id válido para o tipo de mercadoria");
+        ("Mer00x5", "É necessário informar um id válido para o tipo de mercadoria");
+    
+    public static (string Code, string Message) MER_CODIGOS_IGUAIS =
+        ("Mer00x6", "Já foi cadastrada uma mercadoria com o código informado");
 }
