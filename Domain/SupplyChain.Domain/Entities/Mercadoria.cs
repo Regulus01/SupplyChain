@@ -12,6 +12,7 @@ public class Mercadoria : BaseEntity
     
     public Guid TipoMercadoriaId { get; private set; }
     public TipoDeMercadoria TipoDeMercadoria { get; private set; }
+    public IEnumerable<Estoque> Estoque { get; private set; }
     public virtual IEnumerable<Entrada> Entradas { get; private set; }
     public virtual IEnumerable<Saida> Saidas { get; private set; }
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SupplyChain.Infra.Data.Context;
@@ -11,9 +12,11 @@ using SupplyChain.Infra.Data.Context;
 namespace SupplyChain.Infra.Data.Migrations
 {
     [DbContext(typeof(InventarioDbContext))]
-    partial class MercadoriaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003230602_Add_Tabela_Estoque")]
+    partial class Add_Tabela_Estoque
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

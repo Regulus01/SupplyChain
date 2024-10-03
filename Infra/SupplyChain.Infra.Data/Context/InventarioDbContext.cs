@@ -37,5 +37,6 @@ public class InventarioDbContext : DbContext
         modelBuilder.ApplyConfiguration(new SaidaMap());
         modelBuilder.ApplyConfiguration(new MercadoriaMap());
         modelBuilder.ApplyConfiguration(new TipoDeMercadoriaMap());
+        modelBuilder.ApplyConfiguration(new EstoqueMap());
     }
 }
