@@ -18,4 +18,14 @@ public interface IMercadoriaAppService
     /// <param name="dto">Dados ncessários para o cadastro</param>
     /// <returns>Entrada Criada</returns>
     CadastrarEntradaViewModel? CadastrarEntrada(CadastrarEntradaDto dto);
+
+    /// <summary>
+    /// Insere uma saída de uma mercado no sistema
+    /// </summary>
+    /// <remarks>
+    ///     Não será possível cadastrar uma saída caso não tenha estoque na localidade informada
+    /// </remarks>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto);
 }

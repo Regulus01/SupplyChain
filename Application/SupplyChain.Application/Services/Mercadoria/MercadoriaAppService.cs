@@ -83,6 +83,11 @@ public partial class MercadoriaAppService : IMercadoriaAppService
         });
     }
 
+    public CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
     private void EstoqueCadastroATTRabbitmq(Entrada entrada)
     {
         //Logica do estoque mandar para fila depois
