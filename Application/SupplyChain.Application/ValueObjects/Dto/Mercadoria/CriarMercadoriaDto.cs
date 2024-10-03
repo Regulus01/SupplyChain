@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SupplyChain.Domain.Resourcers;
 
-namespace SupplyChain.Application.ValueObjects.Dto;
+namespace SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 
 public record CriarMercadoriaDto
 {

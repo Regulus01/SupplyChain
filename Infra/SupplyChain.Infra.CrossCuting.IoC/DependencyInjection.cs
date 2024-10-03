@@ -5,7 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.Mapper;
-using SupplyChain.Application.Services;
+using SupplyChain.Application.Services.Mercadoria;
+using SupplyChain.Application.Services.TipoDeMercadoria;
 using SupplyChain.Domain.Bus;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Domain.Interface.Repository;
@@ -39,6 +40,9 @@ public static class DependencyInjection
     {
         services.AddScoped<IMercadoriaRepository, MercadoriaRepository>();
         services.AddScoped<IMercadoriaAppService, MercadoriaAppService>();
+
+        services.AddScoped<ITipoDeMercadoriaRepository, TipoDeMercadoriaRepository>();
+        services.AddScoped<ITipoDeMercadoriaAppService, TipoDeMercadoriaAppService>();
     }
 
     /// <summary>

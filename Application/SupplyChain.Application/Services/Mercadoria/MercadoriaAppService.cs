@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using SupplyChain.Application.Interfaces;
-using SupplyChain.Application.ValueObjects.Dto;
-using SupplyChain.Application.ValueObjects.ViewModels;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
+using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Bus;
-using SupplyChain.Domain.Entities;
 using SupplyChain.Domain.Interface.Repository;
 using SupplyChain.Domain.Resourcers;
+using TipoDeMercadoriaDomain = SupplyChain.Domain.Entities.TipoDeMercadoria;
+using MercadoriaDomain = SupplyChain.Domain.Entities.Mercadoria;
 
-namespace SupplyChain.Application.Services;
+namespace SupplyChain.Application.Services.Mercadoria;
 
 public class MercadoriaAppService : IMercadoriaAppService
 {
@@ -26,7 +27,7 @@ public class MercadoriaAppService : IMercadoriaAppService
     {
         var mercadoria = CriarMercadoriaDomain(dto);
 
-        var tipoDeMercadoria = _repository.Query<TipoDeMercadoria>(x => x.Id.Equals(mercadoria.TipoMercadoriaId))
+        var tipoDeMercadoria = _repository.Query<TipoDeMercadoriaDomain>(x => x.Id.Equals(mercadoria.TipoMercadoriaId))
                                           .FirstOrDefault();
         
         if (tipoDeMercadoria == null)
@@ -36,7 +37,7 @@ public class MercadoriaAppService : IMercadoriaAppService
             return null;
         }
         
-        if (!ValidarMercadoria(mercadoria, tipoDeMercadoria))
+        if (!Validar(mercadoria))
         {
             return null;
         } 
@@ -60,15 +61,14 @@ public class MercadoriaAppService : IMercadoriaAppService
     /// Valida se uma mercadoria é valida para a inserção no sistema
     /// </summary>
     /// <param name="mercadoriaDomain">Entidade de mercadoria </param>
-    /// <param name="tipoDeMercadoria">Entidade de Tipo da mercadoria</param>
     /// <returns>Retorna <c>false</c> se a mercadoria está inválida e <c>true</c> caso válida.</returns>
-    private bool ValidarMercadoria(Mercadoria mercadoriaDomain, TipoDeMercadoria? tipoDeMercadoria)
+    private bool Validar(MercadoriaDomain mercadoriaDomain)
     {
-        var validar = mercadoriaDomain.Validate();
+        var validacao = mercadoriaDomain.Validate();
         
-        if (!validar.IsValid)
+        if (!validacao.IsValid)
         {
-            _bus.Notify.NewNotification(validar.Erros);
+            _bus.Notify.NewNotification(validacao.Erros);
             return false;
         }
         
@@ -80,9 +80,9 @@ public class MercadoriaAppService : IMercadoriaAppService
     /// </summary>
     /// <param name="dto">Dados necessários para a criação</param>
     /// <returns>Entidade de dominio de mercadoria</returns>
-    private Mercadoria CriarMercadoriaDomain(CriarMercadoriaDto dto)
+    private MercadoriaDomain CriarMercadoriaDomain(CriarMercadoriaDto dto)
     {
-        return new Mercadoria(
+        return new MercadoriaDomain(
             dto.NumeroDeRegistro,
             dto.Nome,
             dto.Fabricante,

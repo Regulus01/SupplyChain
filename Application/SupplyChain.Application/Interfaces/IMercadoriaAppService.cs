@@ -1,5 +1,7 @@
 ﻿using SupplyChain.Application.ValueObjects.Dto;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels;
+using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 
 namespace SupplyChain.Application.Interfaces;
 

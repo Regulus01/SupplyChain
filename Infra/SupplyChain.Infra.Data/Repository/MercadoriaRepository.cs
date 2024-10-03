@@ -7,7 +7,8 @@ namespace SupplyChain.Infra.Data.Repository;
 
 public class MercadoriaRepository : BaseRepository<InventarioDbContext, MercadoriaRepository>, IMercadoriaRepository
 {
-    public MercadoriaRepository(InventarioDbContext context, ILogger<MercadoriaRepository> logger) : base(context, logger)
+    public MercadoriaRepository(InventarioDbContext context, ILogger<MercadoriaRepository> logger) 
+        : base(context, logger)
     {
     }
 }

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels;
+using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;
 using SupplyChain.Domain.Interface;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Infra.CrossCutting.Controller;
@@ -24,7 +26,7 @@ public class MercadoriaController : BaseController
     /// </summary>
     /// <param name="dto"></param>
     /// <returns>Mercadoria criada</returns>
-    [ProducesResponseType(typeof(CriarMercadoriaDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(CriarTipoDeMercadoriaViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
     public IActionResult Criar([FromBody] CriarMercadoriaDto dto)

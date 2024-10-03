@@ -1,6 +1,6 @@
 ﻿using SupplyChain.Application.ValueObjects.ViewModels.Base;
 
-namespace SupplyChain.Application.ValueObjects.ViewModels;
+namespace SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 
 public class CriarMercadoriaViewModel : BaseViewModel
 {
