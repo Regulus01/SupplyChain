@@ -1,0 +1,13 @@
+﻿using SupplyChain.Domain.Entities.Base;
+
+namespace SupplyChain.Domain.Entities;
+
+public class TipoDeMercadoria : BaseEntity
+{
+    public string Nome { get; set; }
+    
+    public override (bool IsValid, IDictionary<string, string> Erros) Validate()
+    {
+        throw new NotImplementedException();
+    }
+}
