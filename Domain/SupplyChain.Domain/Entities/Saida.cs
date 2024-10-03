@@ -10,6 +10,14 @@ public class Saida : BaseEntity
     
     public Guid MercadoriaId { get; private set; }
     public Mercadoria Mercadoria { get; private set; }
+
+    public Saida(int quantidade, string local, DateTimeOffset dataDaSaida, Guid mercadoriaId)
+    {
+        Quantidade = quantidade;
+        Local = local;
+        DataDaSaida = dataDaSaida;
+        MercadoriaId = mercadoriaId;
+    }
     
     public override (bool IsValid, IDictionary<string, string> Erros) Validate()
     {
