@@ -11,7 +11,9 @@ public class InventarioDbContext : DbContext
     public DbSet<Entrada> Entradas { get; set; }
     public DbSet<Saida> Saidas { get; set; }
     public DbSet<TipoDeMercadoria> TipoDeMercadorias { get; set; }
-
+    
+    public InventarioDbContext(DbContextOptions<InventarioDbContext> options) : base(options) { }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var configuration = new ConfigurationBuilder()

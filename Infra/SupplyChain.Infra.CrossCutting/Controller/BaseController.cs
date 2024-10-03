@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Domain.Interface;
+using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Infra.CrossCutting.Notification.Response;
 
 namespace SupplyChain.Infra.CrossCutting.Controller;

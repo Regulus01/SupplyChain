@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using SupplyChain.Application.Interfaces;
+using SupplyChain.Application.Mapper;
+using SupplyChain.Application.Services;
 using SupplyChain.Domain.Bus;
-using SupplyChain.Domain.Interface;
+using SupplyChain.Domain.Interface.Notification;
+using SupplyChain.Domain.Interface.Repository;
 using SupplyChain.Infra.CrossCutting.Notification;
 using SupplyChain.Infra.Data.Context;
+using SupplyChain.Infra.Data.Repository;
 
 namespace SupplyChain.Infra.CrossCuting.IoC;
 
@@ -22,14 +27,35 @@ public static class DependencyInjection
         AddSwagger(services);
         AddDbContext(services, configuration);
         AddBus(services);
+        AddMapper(services);
+        ConfigureIoC(services);
     }
 
+    /// <summary>
+    /// Configura a inversão de dependências
+    /// </summary>
+    /// <param name="services">Coleção de serviços</param>
+    private static void ConfigureIoC(IServiceCollection services)
+    {
+        services.AddScoped<IMercadoriaRepository, MercadoriaRepository>();
+        services.AddScoped<IMercadoriaAppService, MercadoriaAppService>();
+    }
+
+    /// <summary>
+    /// Configura os serviços que irão fazer parte do Bus
+    /// </summary>
+    /// <param name="services">Coleção de serviços</param>
     private static void AddBus(IServiceCollection services)
     {
         services.AddScoped<INotify, Notify>();
         services.AddScoped<Bus>();
     }
 
+    /// <summary>
+    /// Configura os dbContext da aplicação
+    /// </summary>
+    /// <param name="services">Coleção de serviços</param>
+    /// <param name="configuration">Configurações da aplicação</param>
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<InventarioDbContext>(options =>
@@ -38,6 +64,10 @@ public static class DependencyInjection
         });
     }
     
+    /// <summary>
+    /// Configura o swagger da aplicação
+    /// </summary>
+    /// <param name="services">Coleção de serviços</param>
     private static void AddSwagger(IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
@@ -62,5 +92,16 @@ public static class DependencyInjection
                 }
             });
         });
+    }
+    
+    /// <summary>
+    /// Configura o automapper
+    /// </summary>
+    /// <param name="services">Coleção de serviços</param>
+    private static void AddMapper(IServiceCollection services)
+    {
+        var mapper = MappingConfiguration.RegisterMappings().CreateMapper();
+        services.AddSingleton(mapper);
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
 }

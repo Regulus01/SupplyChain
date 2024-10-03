@@ -1,4 +1,4 @@
-﻿namespace SupplyChain.Domain.Interface;
+﻿namespace SupplyChain.Domain.Interface.Notification;
 
 using NotificationDomain = Domain.Notification.Notification;
 

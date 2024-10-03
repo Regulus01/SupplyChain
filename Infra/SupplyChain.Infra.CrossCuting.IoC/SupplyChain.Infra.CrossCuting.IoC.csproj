@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Application\SupplyChain.Application\SupplyChain.Application.csproj" />
       <ProjectReference Include="..\SupplyChain.Infra.CrossCutting\SupplyChain.Infra.CrossCutting.csproj" />
       <ProjectReference Include="..\SupplyChain.Infra.Data\SupplyChain.Infra.Data.csproj" />
     </ItemGroup>

@@ -4,10 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+      <ProjectReference Include="..\..\Application\SupplyChain.Application\SupplyChain.Application.csproj" />
+      <ProjectReference Include="..\..\Infra\SupplyChain.Infra.CrossCuting.IoC\SupplyChain.Infra.CrossCuting.IoC.csproj" />
     </ItemGroup>
 
 </Project>
