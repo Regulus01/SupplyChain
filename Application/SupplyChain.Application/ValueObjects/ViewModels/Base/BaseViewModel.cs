@@ -1,10 +1,13 @@
-﻿namespace SupplyChain.Application.ValueObjects.ViewModels.Base;
+﻿using System.Text.Json.Serialization;
+
+namespace SupplyChain.Application.ValueObjects.ViewModels.Base;
 
 public class BaseViewModel
 {
     /// <summary>
     /// Id da entidade
     /// </summary>
+    [JsonPropertyOrder(-1)]
     public Guid Id { get; set; }
     
     /// <summary>

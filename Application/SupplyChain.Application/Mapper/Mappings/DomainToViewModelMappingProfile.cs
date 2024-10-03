@@ -16,6 +16,13 @@ public class DomainToViewModelMappingProfile : Profile
                     opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDoTipoMercadoria"]); 
                 });
 
+        CreateMap<Entrada, CadastrarEntradaViewModel>()
+            .ForMember(x => x.NomeDaMercadoria, opt =>
+            {
+                opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDaMercadoria"]); 
+            });
+
+        
         CreateMap<TipoDeMercadoria, CriarTipoDeMercadoriaViewModel>();
     }
 }

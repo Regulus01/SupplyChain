@@ -1,17 +1,14 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
-using SupplyChain.Application.ValueObjects.Dto;
 using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
-using SupplyChain.Application.ValueObjects.ViewModels;
 using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;
-using SupplyChain.Domain.Interface;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Infra.CrossCutting.Controller;
 
 namespace SupplyChain.Api.Controllers;
 
-[Route("api/v1/Mercadoria")]
+[Route("api/v1/Mercadoria/")]
 public class MercadoriaController : BaseController
 {
     private readonly IMercadoriaAppService _mercadoriaAppService;
@@ -34,5 +31,19 @@ public class MercadoriaController : BaseController
         var result = _mercadoriaAppService.CriarMercadoria(dto);
 
         return Response(HttpStatusCode.Created, result);
+    }
+
+    /// <summary>
+    /// Cadastra entradas de uma mercadoria existente no sistema
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Route("Entrada")]
+    public IActionResult CadastrarEntrada([FromBody] CadastrarEntradaDto dto)
+    {
+        var result = _mercadoriaAppService.CadastrarEntrada(dto);
+
+        return Response(HttpStatusCode.OK, result);
     }
 }

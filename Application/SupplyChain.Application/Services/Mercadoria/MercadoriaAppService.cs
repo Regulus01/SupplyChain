@@ -4,13 +4,11 @@ using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Bus;
 using SupplyChain.Domain.Interface.Repository;
-using SupplyChain.Domain.Resourcers;
-using TipoDeMercadoriaDomain = SupplyChain.Domain.Entities.TipoDeMercadoria;
 using MercadoriaDomain = SupplyChain.Domain.Entities.Mercadoria;
 
 namespace SupplyChain.Application.Services.Mercadoria;
 
-public class MercadoriaAppService : IMercadoriaAppService
+public partial class MercadoriaAppService : IMercadoriaAppService
 {
     private readonly IMercadoriaRepository _repository;
     private readonly Bus _bus;
@@ -40,10 +38,8 @@ public class MercadoriaAppService : IMercadoriaAppService
         
         _repository.Add(mercadoria);
 
-        if (!_repository.SaveChanges())
+        if (!SaveChanges())
         {
-            _bus.Notify.NewNotification(ErrorMessage.ERRO_SALVAR.Code, 
-                                        ErrorMessage.ERRO_SALVAR.Message);
             return null;
         }
 
@@ -53,71 +49,34 @@ public class MercadoriaAppService : IMercadoriaAppService
         });
     }
 
-    /// <summary>
-    /// Valida se uma mercadoria já existe no sistema com o mesmo código e se o tipo de mercadoria fornecido é válido.
-    /// </summary>
-    /// <param name="codigoDaMercadoria">Código da mercadoria a ser verificado.</param>
-    /// <param name="tipoDaMercadoriaId">Identificador do tipo de mercadoria a ser validado.</param>
-    /// <param name="tipoDeMercadoria">Retorna o objeto TipoDeMercadoriaDomain correspondente se encontrado,
-    /// caso contrário, será null.</param>
-    /// <returns>Retorna <c>false</c> se a mercadoria está inválida e <c>true</c> caso válida.</returns>
-    private bool ValidarTipoEMercadoriaExistente(string codigoDaMercadoria, Guid tipoDaMercadoriaId,
-        out TipoDeMercadoriaDomain? tipoDeMercadoria)
+    public CadastrarEntradaViewModel? CadastrarEntrada(CadastrarEntradaDto dto)
     {
-        tipoDeMercadoria = _repository.Query<TipoDeMercadoriaDomain>(x => x.Id.Equals(tipoDaMercadoriaId))
-                                      .FirstOrDefault();
-        
-        var mercadoria = _repository.Query<MercadoriaDomain>(x => x.NumeroDeRegistro.Equals(codigoDaMercadoria))
-            .FirstOrDefault();
+        var entrada = CriarEntrada(dto);
 
-        if (mercadoria != null)
+        if (!Validar(entrada))
         {
-            _bus.Notify.NewNotification(ErrorMessage.MER_CODIGOS_IGUAIS.Code, 
-                ErrorMessage.MER_CODIGOS_IGUAIS.Message);
-            return false;
+            return null;
+        } 
+        
+        var mercadoria = _repository.Query<MercadoriaDomain>(x => x.Id.Equals(dto.MercadoriaId))
+                                    .FirstOrDefault();
+
+        if (mercadoria == null)
+        {
+            _bus.Notify.NewNotification("Erro", "A mercadoria informada não existe.");
+            return null;
         }
         
-        if (tipoDeMercadoria == null)
-        {
-            _bus.Notify.NewNotification(ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Code, 
-                ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Message);
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Valida se uma mercadoria é valida para a inserção no sistema
-    /// </summary>
-    /// <param name="mercadoriaDomain">Entidade de mercadoria </param>
-    /// <returns>Retorna <c>false</c> se a mercadoria está inválida e <c>true</c> caso válida.</returns>
-    private bool Validar(MercadoriaDomain mercadoriaDomain)
-    {
-        var validacao = mercadoriaDomain.Validate();
+        _repository.Add(entrada);
         
-        if (!validacao.IsValid)
+        if (!SaveChanges())
         {
-            _bus.Notify.NewNotification(validacao.Erros);
-            return false;
+            return null;
         }
         
-        return true;
-    }
-    
-    /// <summary>
-    /// Cria uma entidade de dominio de mercadoria a partir de um dto
-    /// </summary>
-    /// <param name="dto">Dados necessários para a criação</param>
-    /// <returns>Entidade de dominio de mercadoria</returns>
-    private MercadoriaDomain CriarMercadoriaDomain(CriarMercadoriaDto dto)
-    {
-        return new MercadoriaDomain(
-            dto.NumeroDeRegistro,
-            dto.Nome,
-            dto.Fabricante,
-            dto.Descricao,
-            dto.TipoMercadoriaId
-        );
+        return _mapper.Map<CadastrarEntradaViewModel>(entrada, options =>
+        {
+            options.Items["NomeDaMercadoria"] = mercadoria.Nome;
+        });
     }
 }
