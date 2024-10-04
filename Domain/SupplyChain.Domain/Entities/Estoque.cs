@@ -10,10 +10,10 @@ public class Estoque : BaseEntity
     public Guid MercadoriaId { get; private set; }
     public Mercadoria Mercadoria { get; private set; }
 
-    public Estoque(string local, int quantidade, Guid mercadoriaId)
+    public Estoque(string local, Guid mercadoriaId)
     {
         Local = local;
-        Quantidade = quantidade;
+        Quantidade = 0;
         MercadoriaId = mercadoriaId;
     }
 

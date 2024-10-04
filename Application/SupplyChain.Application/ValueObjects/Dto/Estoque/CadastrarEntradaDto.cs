@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SupplyChain.Application.ValueObjects.Dto.Mercadoria;
+namespace SupplyChain.Application.ValueObjects.Dto.Estoque;
 
 public class CadastrarEntradaDto
 {

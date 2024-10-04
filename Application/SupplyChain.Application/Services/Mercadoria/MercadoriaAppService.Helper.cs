@@ -1,5 +1,4 @@
 ﻿using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
-using SupplyChain.Domain.Entities;
 using SupplyChain.Domain.Entities.Base;
 using SupplyChain.Domain.Resourcers;
 
@@ -25,19 +24,19 @@ public partial class MercadoriaAppService
                                       .FirstOrDefault();
         
         var mercadoria = _repository.Query<MercadoriaDomain>(x => x.NumeroDeRegistro.Equals(codigoDaMercadoria))
-            .FirstOrDefault();
+                                    .FirstOrDefault();
 
         if (mercadoria != null)
         {
             _bus.Notify.NewNotification(ErrorMessage.MER_CODIGOS_IGUAIS.Code, 
-                ErrorMessage.MER_CODIGOS_IGUAIS.Message);
+                                        ErrorMessage.MER_CODIGOS_IGUAIS.Message);
             return false;
         }
         
         if (tipoDeMercadoria == null)
         {
             _bus.Notify.NewNotification(ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Code, 
-                ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Message);
+                                        ErrorMessage.TIP_MERCADORIA_NAO_EXISTE.Message);
             return false;
         }
 
@@ -79,29 +78,6 @@ public partial class MercadoriaAppService
     }
     
     /// <summary>
-    /// Cria uma entrada a partir de um dto
-    /// </summary>
-    /// <param name="dto">Dados necessários para criação</param>
-    /// <returns>Entidade entrada</returns>
-    private Entrada CriarEntrada(CadastrarEntradaDto dto)
-    {
-        var dataDeEntrada = AlterarDataParaUtc(dto.DataDaEntrada);
-        
-        var entrada = new Entrada(dto.Quantidade, dto.Local, dataDeEntrada, dto.MercadoriaId);
-        return entrada;
-    }
-
-    /// <summary>
-    /// Altera uma data para o formato utc -3 hr
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    private DateTime AlterarDataParaUtc(DateTime data)
-    {
-        return data.AddHours(-3);  
-    }
-    
-    /// <summary>
     /// Salva no banco de dados, caso haja erro, gera uma notificação
     /// </summary>
     /// <returns><c>true</c> caso não haja erros, caso contrário <c>false</c> </returns>
@@ -110,7 +86,7 @@ public partial class MercadoriaAppService
         if (!_repository.SaveChanges())
         {
             _bus.Notify.NewNotification(ErrorMessage.ERRO_SALVAR.Code, 
-                ErrorMessage.ERRO_SALVAR.Message);
+                                        ErrorMessage.ERRO_SALVAR.Message);
             return false;
         }
 

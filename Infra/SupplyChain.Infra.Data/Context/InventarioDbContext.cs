@@ -24,8 +24,6 @@ public class InventarioDbContext : DbContext
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         
-        Console.WriteLine("Aplicando migration na conexão -> " + connectionString);
-        
         optionsBuilder.UseNpgsql(connectionString);
     }
 

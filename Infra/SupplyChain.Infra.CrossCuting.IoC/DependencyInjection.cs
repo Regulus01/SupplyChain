@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.Mapper;
+using SupplyChain.Application.Services.Estoque;
 using SupplyChain.Application.Services.Mercadoria;
 using SupplyChain.Application.Services.TipoDeMercadoria;
 using SupplyChain.Domain.Bus;
@@ -43,6 +44,9 @@ public static class DependencyInjection
 
         services.AddScoped<ITipoDeMercadoriaRepository, TipoDeMercadoriaRepository>();
         services.AddScoped<ITipoDeMercadoriaAppService, TipoDeMercadoriaAppService>();
+        
+        services.AddScoped<IEstoqueAppService, EstoqueAppService>();
+        services.AddScoped<IEstoqueRepository, EstoqueRepository>();
     }
 
     /// <summary>

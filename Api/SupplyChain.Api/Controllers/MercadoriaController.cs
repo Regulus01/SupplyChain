@@ -32,18 +32,4 @@ public class MercadoriaController : BaseController
 
         return Response(HttpStatusCode.Created, result);
     }
-
-    /// <summary>
-    /// Cadastra entradas de uma mercadoria existente no sistema
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    [HttpPost]
-    [Route("Entrada")]
-    public IActionResult CadastrarEntrada([FromBody] CadastrarEntradaDto dto)
-    {
-        var result = _mercadoriaAppService.CadastrarEntrada(dto);
-
-        return Response(HttpStatusCode.OK, result);
-    }
 }
