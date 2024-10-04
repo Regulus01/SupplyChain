@@ -42,6 +42,7 @@ public class DomainToViewModelMappingProfile : Profile
     private void EstoqueMap()
     {
         CreateMap<Estoque, CadastrarEstoqueViewModel>();
+        CreateMap<Saida, CadastrarSaidaViewModel>();
         CreateMap<Entrada, CadastrarEntradaViewModel>()
             .ForMember(x => x.NomeDaMercadoria, opt =>
             {

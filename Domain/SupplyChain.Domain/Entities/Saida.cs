@@ -21,6 +21,8 @@ public class Saida : BaseEntity
     
     public override (bool IsValid, IDictionary<string, string> Erros) Validate()
     {
-        throw new NotImplementedException();
+        var erros = new Dictionary<string, string>();
+        
+        return (erros.Count == 0, erros); 
     }
 }

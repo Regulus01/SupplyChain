@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Bus;
@@ -74,5 +75,31 @@ public partial class EstoqueAppService : IEstoqueAppService
         {
             options.Items["NomeDaMercadoria"] = mercadoria?.Nome;
         });
+    }
+    
+    public CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto)
+    {
+        if (!ValidarLocalDoEstoqueExistente(dto.Local, dto.MercadoriaId, out var estoque))
+            return null;
+
+        if (!ValidarEstoque(dto, estoque)) 
+            return null;
+
+        var saida = CriarSaida(dto);
+
+        if (!Validar(saida))
+            return null;
+
+        _repository.Add(saida);
+        
+        estoque?.RemoverEstoque(saida.Quantidade);
+        
+        if(estoque != null)
+            _repository.Update(estoque);
+        
+        if (!SaveChanges())
+            return null;
+        
+        return _mapper.Map<CadastrarSaidaViewModel>(saida);
     }
 }

@@ -21,6 +21,11 @@ public class Estoque : BaseEntity
     {
         Quantidade += quantidade;
     }
+
+    public void RemoverEstoque(int quantidade)
+    {
+        Quantidade -= quantidade;
+    }
     
     public override (bool IsValid, IDictionary<string, string> Erros) Validate()
     {

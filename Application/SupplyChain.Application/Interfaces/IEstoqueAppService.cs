@@ -24,5 +24,14 @@ public interface IEstoqueAppService
     /// <returns>Estoque Criado</returns>
     CadastrarEntradaViewModel? CadastrarEntrada(CadastrarEntradaDto dto);
     
+    /// <summary>
+    /// Insere uma saída de um estoque no sistema
+    /// </summary>
+    /// <remarks>
+    ///     Não será possível cadastrar uma saída caso não tenha estoque na localidade informada
+    /// </remarks>
+    /// <param name="dto">Dados necessários para a saida</param>
+    /// <returns>Saida cadastrada</returns>
+    CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto);
     
 }

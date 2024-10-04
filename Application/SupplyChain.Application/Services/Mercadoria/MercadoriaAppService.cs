@@ -47,12 +47,4 @@ public partial class MercadoriaAppService : IMercadoriaAppService
             options.Items["NomeDoTipoMercadoria"] = tipoDeMercadoria?.Nome;
         });
     }
-
-    public CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto)
-    {
-        throw new NotImplementedException();
-    }
-    
-
-
 }

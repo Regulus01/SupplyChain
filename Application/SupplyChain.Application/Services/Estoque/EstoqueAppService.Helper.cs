@@ -1,4 +1,5 @@
 ﻿using SupplyChain.Application.ValueObjects.Dto.Estoque;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Domain.Entities;
 using SupplyChain.Domain.Entities.Base;
 using SupplyChain.Domain.Resourcers;
@@ -27,7 +28,7 @@ public partial class EstoqueAppService
 
         if (estoque == null)
         {
-            _bus.Notify.NewNotification("Erro", "Não existe um estoque para o local informado.");
+            _bus.Notify.NewNotification("Erro", "Não existe um estoque ou mercadoria para o local informado.");
             return false;
         }
 
@@ -80,7 +81,7 @@ public partial class EstoqueAppService
     }
     
     /// <summary>
-    /// Altera uma data para o formato utc -3 hr
+    /// Altera uma data para o formato utc −3 hr
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
@@ -105,6 +106,37 @@ public partial class EstoqueAppService
         }
         
         return true;
+    }
+    
+    /// <summary>
+    /// Valida o estoque atual
+    /// </summary>
+    /// <param name="dto">Dto do tipo <see cref="CadastrarSaidaDto"/> utilizado para as validações</param>
+    /// <param name="estoque"><see cref="EstoqueDomain"/> a ser validado</param>
+    /// <returns>Se valido <c>true</c> caso contrário <c>false</c></returns>
+    private bool ValidarEstoque(CadastrarSaidaDto dto, EstoqueDomain? estoque)
+    {
+        if (estoque is { Quantidade: <= 0 } || estoque?.Quantidade < dto.Quantidade)
+        {
+            _bus.Notify.NewNotification("Erro", "A quantidade do estoque não é o suficiente para a retirada");
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Cria uma entidade do tipo <see cref="Saida"/>
+    /// </summary>
+    /// <param name="dto">Dados do tipo <see cref="CadastrarSaidaDto"/> para a criação da entidade</param>
+    /// <returns>Entidade do tipo <see cref="Saida"/></returns>
+    private Saida CriarSaida(CadastrarSaidaDto dto)
+    {
+        var dataDeSaida = AlterarDataParaUtc(dto.DataDaSaida);
+
+        var saida = new Saida(dto.Quantidade, dto.Local, dataDeSaida, dto.MercadoriaId);
+        
+        return saida;
     }
     
     /// <summary>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
+using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Interface.Notification;
@@ -38,7 +39,7 @@ public class EstoqueController : BaseController
     }
     
     /// <summary>
-    /// Insere uma entrada num estoque 
+    /// Insere uma entrada em no sistema 
     /// </summary>
     /// <remarks>
     /// Não será cadastrado se a mercadoria não exista ou não exista estoque no local para mercadoria informada
@@ -52,6 +53,25 @@ public class EstoqueController : BaseController
     public IActionResult InserirEntradaEstoque([FromBody] CadastrarEntradaDto dto)
     {
         var result = _estoqueAppService.CadastrarEntrada(dto);
+
+        return Response(HttpStatusCode.Created, result);
+    }
+    
+    /// <summary>
+    /// Insere uma nova saída no sistema
+    /// </summary>
+    /// <remarks>
+    /// Caso não houver disponibilidade no estoque a saída não será realizada
+    /// </remarks>
+    /// <param name="dto"></param>
+    /// <returns>Saida criada</returns>
+    [ProducesResponseType(typeof(CadastrarEntradaViewModel), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpPost]
+    [Route("Saida")]
+    public IActionResult InserirSaidaNoEstoque([FromBody] CadastrarSaidaDto dto)
+    {
+        var result = _estoqueAppService.CadastrarSaida(dto);
 
         return Response(HttpStatusCode.Created, result);
     }
