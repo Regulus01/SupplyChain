@@ -9,6 +9,7 @@ using SupplyChain.Application.Services.Estoque;
 using SupplyChain.Application.Services.Mercadoria;
 using SupplyChain.Application.Services.TipoDeMercadoria;
 using SupplyChain.Domain.Bus;
+using SupplyChain.Domain.Interface.Bus;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Domain.Interface.Repository;
 using SupplyChain.Infra.CrossCutting.Notification;
@@ -56,7 +57,7 @@ public static class DependencyInjection
     private static void AddBus(IServiceCollection services)
     {
         services.AddScoped<INotify, Notify>();
-        services.AddScoped<Bus>();
+        services.AddScoped<IBus, Bus>();
     }
 
     /// <summary>

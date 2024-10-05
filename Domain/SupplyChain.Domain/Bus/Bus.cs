@@ -1,8 +1,9 @@
-﻿using SupplyChain.Domain.Interface.Notification;
+﻿using SupplyChain.Domain.Interface.Bus;
+using SupplyChain.Domain.Interface.Notification;
 
 namespace SupplyChain.Domain.Bus;
 
-public class Bus
+public class Bus : IBus
 {
     public INotify Notify { get; private set; }
 

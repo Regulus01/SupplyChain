@@ -2,7 +2,7 @@
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
-using SupplyChain.Domain.Bus;
+using SupplyChain.Domain.Interface.Bus;
 using SupplyChain.Domain.Interface.Repository;
 
 namespace SupplyChain.Application.Services.Mercadoria;
@@ -10,10 +10,10 @@ namespace SupplyChain.Application.Services.Mercadoria;
 public partial class MercadoriaAppService : IMercadoriaAppService
 {
     private readonly IMercadoriaRepository _repository;
-    private readonly Bus _bus;
+    private readonly IBus _bus;
     private readonly IMapper _mapper;
 
-    public MercadoriaAppService(Bus bus, IMercadoriaRepository repository, IMapper mapper)
+    public MercadoriaAppService(IBus bus, IMercadoriaRepository repository, IMapper mapper)
     {
         _bus = bus;
         _repository = repository;

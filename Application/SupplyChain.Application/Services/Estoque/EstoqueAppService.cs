@@ -4,7 +4,7 @@ using SupplyChain.Application.ValueObjects.Dto.Estoque;
 using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
-using SupplyChain.Domain.Bus;
+using SupplyChain.Domain.Interface.Bus;
 using SupplyChain.Domain.Interface.Repository;
 using EstoqueDomain = SupplyChain.Domain.Entities.Estoque;
 
@@ -13,10 +13,10 @@ namespace SupplyChain.Application.Services.Estoque;
 public partial class EstoqueAppService : IEstoqueAppService
 {
     private readonly IEstoqueRepository _repository;
-    private readonly Bus _bus;
+    private readonly IBus _bus;
     private readonly IMapper _mapper;
 
-    public EstoqueAppService(IEstoqueRepository repository, IMapper mapper, Bus bus)
+    public EstoqueAppService(IEstoqueRepository repository, IMapper mapper, IBus bus)
     {
         _repository = repository;
         _mapper = mapper;
