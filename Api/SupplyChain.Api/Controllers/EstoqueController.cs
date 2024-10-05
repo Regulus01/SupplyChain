@@ -35,7 +35,7 @@ public class EstoqueController : BaseController
     {
         var result = _estoqueAppService.CadastrarEstoque(dto);
 
-        return Response(HttpStatusCode.OK, result);
+        return Response(HttpStatusCode.Created, result);
     }
     
     /// <summary>

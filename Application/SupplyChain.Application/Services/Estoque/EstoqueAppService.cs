@@ -76,7 +76,8 @@ public partial class EstoqueAppService : IEstoqueAppService
             options.Items["NomeDaMercadoria"] = mercadoria?.Nome;
         });
     }
-    
+
+    /// <inheritdoc />
     public CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto)
     {
         if (!ValidarLocalDoEstoqueExistente(dto.Local, dto.MercadoriaId, out var estoque))

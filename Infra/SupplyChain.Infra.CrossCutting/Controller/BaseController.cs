@@ -14,7 +14,7 @@ public class BaseController : ControllerBase
     {
         _notify = notify;
     }
-
+    
     protected new IActionResult Response(HttpStatusCode statusCode = HttpStatusCode.OK, object? result = null)
     {
         if (!_notify.HasNotifications())

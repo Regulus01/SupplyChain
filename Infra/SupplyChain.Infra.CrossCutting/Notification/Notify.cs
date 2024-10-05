@@ -1,5 +1,4 @@
-﻿using SupplyChain.Domain.Interface;
-using SupplyChain.Domain.Interface.Notification;
+﻿using SupplyChain.Domain.Interface.Notification;
 using NotificationDomain = SupplyChain.Domain.Notification.Notification;
 
 namespace SupplyChain.Infra.CrossCutting.Notification;
