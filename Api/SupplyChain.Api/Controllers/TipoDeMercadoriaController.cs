@@ -12,12 +12,12 @@ namespace SupplyChain.Api.Controllers;
 public class TipoDeMercadoriaController : BaseController
 {
     private readonly ITipoDeMercadoriaAppService _appService;
-    
+
     public TipoDeMercadoriaController(INotify notify, ITipoDeMercadoriaAppService appService) : base(notify)
     {
         _appService = appService;
     }
-    
+
     /// <summary>
     /// Insere um tipo de mercadoria no sistema
     /// </summary>
@@ -44,8 +44,7 @@ public class TipoDeMercadoriaController : BaseController
     public IActionResult ObterTipoDeMercadoria([FromQuery] int? skip = null, [FromQuery] int? take = null)
     {
         var result = _appService.ObterTipoDeMercadoria(skip, take);
-        
+
         return Response(HttpStatusCode.OK, result);
     }
-     
 }

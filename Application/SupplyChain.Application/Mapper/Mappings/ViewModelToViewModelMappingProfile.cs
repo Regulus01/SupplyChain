@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;
 using SupplyChain.Domain.Database.ViewModels;
 
@@ -10,5 +11,8 @@ public class ViewModelToViewModelMappingProfile : Profile
     {
         CreateMap<DbObterTipoDeMercadoriaViewModel, ObterTipoDeMercadoriaViewModel>()
             .ForMember(x => x.Nome, opt => opt.MapFrom(x => x.Tip_Nome));
+        
+        CreateMap<DbObterMercadoriaViewModel, ObterMercadoriaViewModel>()
+            .ForMember(x => x.Nome, opt => opt.MapFrom(x => x.Mer_Nome));
     }
 }

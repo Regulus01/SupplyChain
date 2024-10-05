@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
+using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Infra.CrossCutting.Controller;
@@ -31,5 +32,20 @@ public class MercadoriaController : BaseController
         var result = _mercadoriaAppService.CriarMercadoria(dto);
 
         return Response(HttpStatusCode.Created, result);
+    }
+    
+    /// <summary>
+    /// Obtém as mercadorias, com possibilidade de paginação
+    /// </summary>
+    /// <param name="skip">Número de registros a serem ignorados</param>
+    /// <param name="take">Número máximo de registros a serem retornados</param>
+    /// <returns>Mercadorias</returns>
+    [ProducesResponseType(typeof(ObterMercadoriaViewModel), StatusCodes.Status200OK)]
+    [HttpGet]
+    public IActionResult ObterTipoDeMercadoria([FromQuery] int? skip = null, [FromQuery] int? take = null)
+    {
+        var result = _mercadoriaAppService.ObterMercadorias(skip, take);
+        
+        return Response(HttpStatusCode.OK, result);
     }
 }

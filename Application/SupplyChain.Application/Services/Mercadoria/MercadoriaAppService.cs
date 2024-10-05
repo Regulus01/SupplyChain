@@ -27,24 +27,29 @@ public partial class MercadoriaAppService : IMercadoriaAppService
         if (!Validar(mercadoria))
         {
             return null;
-        } 
-        
-        if (!ValidarTipoEMercadoriaExistente(mercadoria.NumeroDeRegistro, mercadoria.TipoMercadoriaId, 
-                                             out var tipoDeMercadoria))
+        }
+
+        if (!ValidarTipoEMercadoriaExistente(mercadoria.NumeroDeRegistro, mercadoria.Nome, mercadoria.TipoMercadoriaId,
+                out var tipoDeMercadoria))
         {
             return null;
         }
-        
+
         _repository.Add(mercadoria);
 
         if (!SaveChanges())
         {
             return null;
         }
-        
-        return _mapper.Map<CriarMercadoriaViewModel>(mercadoria, options =>
-        {
-            options.Items["NomeDoTipoMercadoria"] = tipoDeMercadoria?.Nome;
-        });
+
+        return _mapper.Map<CriarMercadoriaViewModel>(mercadoria,
+            options => { options.Items["NomeDoTipoMercadoria"] = tipoDeMercadoria?.Nome; });
+    }
+
+    public IEnumerable<ObterMercadoriaViewModel> ObterMercadorias(int? skip = null, int? take = null)
+    {
+        var tiposDeMercadorias = _repository.ObterListagem(skip, take);
+
+        return _mapper.Map<IEnumerable<ObterMercadoriaViewModel>>(tiposDeMercadorias);
     }
 }

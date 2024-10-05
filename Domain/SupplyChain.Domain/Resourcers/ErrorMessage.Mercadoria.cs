@@ -18,5 +18,5 @@ public partial class ErrorMessage
         ("Mer00x5", "É necessário informar um id válido para o tipo de mercadoria");
     
     public static (string Code, string Message) MER_CODIGOS_IGUAIS =
-        ("Mer00x6", "Já foi cadastrada uma mercadoria com o código informado");
+        ("Mer00x6", "A mercadoria com o nome de código informados, já foi cadastrada");
 }

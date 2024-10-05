@@ -13,17 +13,19 @@ public partial class MercadoriaAppService
     /// Valida se uma mercadoria já existe no sistema com o mesmo código e se o tipo de mercadoria fornecido é válido.
     /// </summary>
     /// <param name="codigoDaMercadoria">Código da mercadoria a ser verificado.</param>
+    /// <param name="nomeMercadoria">Nome da mercadoria</param>
     /// <param name="tipoDaMercadoriaId">Identificador do tipo de mercadoria a ser validado.</param>
     /// <param name="tipoDeMercadoria">Retorna o objeto TipoDeMercadoriaDomain correspondente se encontrado,
     /// caso contrário, será null.</param>
     /// <returns>Retorna <c>false</c> se a mercadoria está inválida e <c>true</c> caso válida.</returns>
-    private bool ValidarTipoEMercadoriaExistente(string codigoDaMercadoria, Guid tipoDaMercadoriaId,
+    private bool ValidarTipoEMercadoriaExistente(string codigoDaMercadoria, string nomeMercadoria, Guid tipoDaMercadoriaId,
         out TipoDeMercadoriaDomain? tipoDeMercadoria)
     {
         tipoDeMercadoria = _repository.Query<TipoDeMercadoriaDomain>(x => x.Id.Equals(tipoDaMercadoriaId))
                                       .FirstOrDefault();
         
-        var mercadoria = _repository.Query<MercadoriaDomain>(x => x.NumeroDeRegistro.Equals(codigoDaMercadoria))
+        var mercadoria = _repository.Query<MercadoriaDomain>(x => x.NumeroDeRegistro.Equals(codigoDaMercadoria) &&
+                                                                  x.Nome == nomeMercadoria)
                                     .FirstOrDefault();
 
         if (mercadoria != null)
@@ -31,7 +33,7 @@ public partial class MercadoriaAppService
             _bus.Notify.NewNotification(ErrorMessage.MER_CODIGOS_IGUAIS.Code, 
                                         ErrorMessage.MER_CODIGOS_IGUAIS.Message);
             return false;
-        }
+        } 
         
         if (tipoDeMercadoria == null)
         {

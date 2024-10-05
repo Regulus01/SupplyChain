@@ -31,6 +31,9 @@ public class Estoque : BaseEntity
     {
         var erros = new Dictionary<string, string>();
         
+        if(Guid.Empty == MercadoriaId)
+            erros.Add("Erro", "A mercadoria deve ser informada.");
+        
         return (erros.Count == 0, erros); 
     }
 }
