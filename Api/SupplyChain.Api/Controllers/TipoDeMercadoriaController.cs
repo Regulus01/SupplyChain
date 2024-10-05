@@ -32,5 +32,20 @@ public class TipoDeMercadoriaController : BaseController
 
         return Response(HttpStatusCode.Created, result);
     }
-    
+
+    /// <summary>
+    /// Obtém os tipos de mercadoria, com possibilidade de paginação
+    /// </summary>
+    /// <param name="skip">Número de registros a serem ignorados</param>
+    /// <param name="take">Número máximo de registros a serem retornados</param>
+    /// <returns>Tipos de mercadoria</returns>
+    [ProducesResponseType(typeof(CriarTipoDeMercadoriaViewModel), StatusCodes.Status200OK)]
+    [HttpGet]
+    public IActionResult ObterTipoDeMercadoria([FromQuery] int? skip = null, [FromQuery] int? take = null)
+    {
+        var result = _appService.ObterTipoDeMercadoria(skip, take);
+        
+        return Response(HttpStatusCode.OK, result);
+    }
+     
 }

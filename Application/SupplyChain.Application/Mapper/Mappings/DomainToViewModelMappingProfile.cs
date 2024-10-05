@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SupplyChain.Application.ValueObjects.ViewModels;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
 using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;

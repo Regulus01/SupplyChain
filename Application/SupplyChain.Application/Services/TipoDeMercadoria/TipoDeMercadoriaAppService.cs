@@ -2,7 +2,7 @@
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.TipoDeMercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.TipoDeMercadoria;
-using SupplyChain.Domain.Bus;
+using SupplyChain.Domain.Interface.Bus;
 using SupplyChain.Domain.Interface.Repository;
 using SupplyChain.Domain.Resourcers;
 using TipoDeMercadoriaDomain = SupplyChain.Domain.Entities.TipoDeMercadoria;
@@ -13,15 +13,16 @@ public class TipoDeMercadoriaAppService : ITipoDeMercadoriaAppService
 {
     private readonly ITipoDeMercadoriaRepository _repository;
     private readonly IMapper _mapper;
-    private readonly Bus _bus;
+    private readonly IBus _bus;
 
-    public TipoDeMercadoriaAppService(ITipoDeMercadoriaRepository repository, IMapper mapper, Bus bus)
+    public TipoDeMercadoriaAppService(ITipoDeMercadoriaRepository repository, IMapper mapper, IBus bus)
     {
         _repository = repository;
         _mapper = mapper;
         _bus = bus;
     }
-    
+
+    /// <inheritdoc />
     public CriarTipoDeMercadoriaViewModel? CriarTipoDeMercadoria(CriarTipoDeMercadoriaDto dto)
     {
         var tipoDeMercadoria = new TipoDeMercadoriaDomain(dto.Nome);
@@ -41,6 +42,14 @@ public class TipoDeMercadoriaAppService : ITipoDeMercadoriaAppService
         }
 
         return _mapper.Map<CriarTipoDeMercadoriaViewModel>(tipoDeMercadoria);
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<ObterTipoDeMercadoriaViewModel> ObterTipoDeMercadoria(int? skip = null, int? take = null)
+    {
+        var tiposDeMercadorias = _repository.ObterListagem(skip, take);
+        
+        return _mapper.Map<IEnumerable<ObterTipoDeMercadoriaViewModel>>(tiposDeMercadorias);
     }
 
     /// <summary>

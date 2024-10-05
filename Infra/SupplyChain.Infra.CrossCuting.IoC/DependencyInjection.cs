@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.Mapper;
 using SupplyChain.Application.Services.Estoque;
@@ -48,6 +50,8 @@ public static class DependencyInjection
         
         services.AddScoped<IEstoqueAppService, EstoqueAppService>();
         services.AddScoped<IEstoqueRepository, EstoqueRepository>();
+        
+        services.AddScoped<IDatabaseService, DatabaseService>();
     }
 
     /// <summary>
@@ -67,10 +71,14 @@ public static class DependencyInjection
     /// <param name="configuration">Configurações da aplicação</param>
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        
         services.AddDbContext<InventarioDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(connectionString);
         });
+        
+        services.AddSingleton<IDbConnection>(db => new NpgsqlConnection(connectionString));
     }
     
     /// <summary>
