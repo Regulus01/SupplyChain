@@ -33,5 +33,15 @@ public interface IEstoqueAppService
     /// <param name="dto">Dados necessários para a saida</param>
     /// <returns>Saida cadastrada</returns>
     CadastrarSaidaViewModel? CadastrarSaida(CadastrarSaidaDto dto);
-    
+
+    /// <summary>
+    /// Obtém os locais que a mercadoria possui estoque, como possibilidade de paginação
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="skip">Número de registros a serem ignorados</param>
+    /// <param name="take">Número máximo de registros a serem retornados</param>
+    /// <returns>Locais da mercadoria</returns>
+    IEnumerable<ObterLocaisDeEstoqueViewModel> ObterLocaisDoEstoqueDaMercadoria(Guid mercadoriaId,
+        int? skip = null, int? take = null);
+
 }

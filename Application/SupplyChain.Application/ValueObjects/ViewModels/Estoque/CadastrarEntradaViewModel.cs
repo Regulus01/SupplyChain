@@ -1,6 +1,6 @@
 ﻿using SupplyChain.Application.ValueObjects.ViewModels.Base;
 
-namespace SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
+namespace SupplyChain.Application.ValueObjects.ViewModels.Estoque;
 
 public class CadastrarEntradaViewModel : BaseViewModel
 {

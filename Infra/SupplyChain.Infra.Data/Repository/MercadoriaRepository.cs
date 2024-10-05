@@ -15,17 +15,17 @@ public class MercadoriaRepository : BaseRepository<InventarioDbContext, Mercador
     {
         _databaseService = databaseService;
     }
-    
+
     public IEnumerable<DbObterMercadoriaViewModel> ObterListagem(int? skip, int? take)
     {
         var query = "select t.\"Id\", t.\"Mer_Nome\"" +
                     "from \"Inventario\".\"Mercadoria\" t";
 
-        query += " order by t.\"Mer_Nome\" desc";
-        
+        query += " order by t.\"Mer_Nome\" asc";
+
         if (skip != null && take != null)
             query += $" offset {skip} limit {take}";
-        
+
         var result = _databaseService.Query<DbObterMercadoriaViewModel>(query);
 
         return result;

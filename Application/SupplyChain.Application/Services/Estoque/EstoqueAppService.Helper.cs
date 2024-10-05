@@ -77,6 +77,7 @@ public partial class EstoqueAppService
         var dataDeEntrada = AlterarDataParaUtc(dto.DataDaEntrada);
         
         var entrada = new Entrada(dto.Quantidade, dto.Local, dataDeEntrada, dto.MercadoriaId);
+        
         return entrada;
     }
     
@@ -85,9 +86,9 @@ public partial class EstoqueAppService
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    private DateTime AlterarDataParaUtc(DateTime data)
+    private DateTimeOffset AlterarDataParaUtc(DateTime data)
     {
-        return data.AddHours(-3);  
+        return data.AddHours(-3).ToUniversalTime();  
     }
     
     /// <summary>

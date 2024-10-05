@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
-using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
-using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Interface.Bus;
 using SupplyChain.Domain.Interface.Repository;
 using EstoqueDomain = SupplyChain.Domain.Entities.Estoque;
 
 namespace SupplyChain.Application.Services.Estoque;
 
+/// <inheritdoc />
 public partial class EstoqueAppService : IEstoqueAppService
 {
     private readonly IEstoqueRepository _repository;
@@ -23,6 +22,7 @@ public partial class EstoqueAppService : IEstoqueAppService
         _bus = bus;
     }
 
+    /// <inheritdoc />
     public CadastrarEstoqueViewModel? CadastrarEstoque(CadastrarEstoqueDto dto)
     {
         var estoqueExistente = _repository.Query<EstoqueDomain>(x => x.Local.ToLower().Equals(dto.Local.ToLower()) && 
@@ -47,7 +47,8 @@ public partial class EstoqueAppService : IEstoqueAppService
 
         return _mapper.Map<CadastrarEstoqueViewModel>(estoque);
     }
-    
+
+    /// <inheritdoc />
     public CadastrarEntradaViewModel? CadastrarEntrada(CadastrarEntradaDto dto)
     {
         if (!ValidarMercadoriaExistente(dto.MercadoriaId, out var mercadoria))
@@ -102,5 +103,13 @@ public partial class EstoqueAppService : IEstoqueAppService
             return null;
         
         return _mapper.Map<CadastrarSaidaViewModel>(saida);
+    }
+
+    public IEnumerable<ObterLocaisDeEstoqueViewModel> ObterLocaisDoEstoqueDaMercadoria(Guid mercadoriaId,
+        int? skip = null, int? take = null)
+    {
+        var locais = _repository.ObterListagemDeLocais(mercadoriaId, skip, take);
+
+        return _mapper.Map<IEnumerable<ObterLocaisDeEstoqueViewModel>>(locais);
     }
 }

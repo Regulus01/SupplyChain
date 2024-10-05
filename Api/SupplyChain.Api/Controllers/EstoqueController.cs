@@ -75,4 +75,25 @@ public class EstoqueController : BaseController
 
         return Response(HttpStatusCode.Created, result);
     }
+
+    /// <summary>
+    /// Obtem os locais do estoque da mercadoria
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="skip">Número de registros a serem ignorados</param>
+    /// <param name="take">Número máximo de registros a serem retornados</param>
+    /// <returns>Lista com locais</returns>
+    [ProducesResponseType(typeof(ObterLocaisDeEstoqueViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet]
+    [Route("{mercadoriaId:guid}/Locais")]
+    public IActionResult ListarLocaisDoEstoque([FromRoute] Guid mercadoriaId, [FromQuery] int? skip = null,
+        [FromQuery] int? take = null)
+    {
+        var result = _estoqueAppService.ObterLocaisDoEstoqueDaMercadoria(mercadoriaId, skip, take);
+
+        return Response(HttpStatusCode.OK, result);
+    }
+    
+    
 }
