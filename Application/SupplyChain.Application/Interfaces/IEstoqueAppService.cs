@@ -44,4 +44,15 @@ public interface IEstoqueAppService
     IEnumerable<ObterLocaisDeEstoqueViewModel> ObterLocaisDoEstoqueDaMercadoria(Guid mercadoriaId,
         int? skip = null, int? take = null);
 
+    /// <summary>
+    /// Gera um relatório anual com o total de entradas e saídas mensais de uma mercadoria específica.
+    /// </summary>
+    /// <param name="mercadoriaId">O identificador único da mercadoria .</param>
+    /// <param name="ano">O ano do qual o relatório será gerado.</param>
+    /// <returns>
+    /// Dicionário onde a chave é o nome do mês e o valor é um <see cref="TotaisMensaisViewModel"/> 
+    /// contendo os totais de entradas e saídas mensais da mercadoria especificada.
+    /// </returns>
+    Dictionary<string, TotaisMensaisViewModel>? ObterRelatorioAnual(Guid mercadoriaId, int ano);
+
 }

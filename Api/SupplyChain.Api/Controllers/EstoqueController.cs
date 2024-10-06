@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
@@ -94,6 +95,24 @@ public class EstoqueController : BaseController
 
         return Response(HttpStatusCode.OK, result);
     }
-    
-    
+
+    /// <summary>
+    ///  Gera um relatório anual com o total de entradas e saídas mensais de uma mercadoria específica.
+    /// </summary>
+    /// <param name="mercadoriaId">O identificador único da mercadoria.</param>
+    /// <param name="ano">O ano do qual o relatório será gerado.</param>
+    /// <returns>
+    /// Dicionário onde a chave é o nome do mês e o valor é um <see cref="TotaisMensaisViewModel"/> 
+    /// contendo os totais de entradas e saídas mensais da mercadoria especificada.
+    /// </returns>
+    [ProducesResponseType(typeof(TotaisMensaisViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet]
+    [Route("Relatorio/{mercadoriaId:guid}/{ano:int}")]
+    public IActionResult ObterEntradas([FromRoute] Guid mercadoriaId, [FromRoute][Required] int ano)
+    {
+        var result = _estoqueAppService.ObterRelatorioAnual(mercadoriaId, ano);
+
+        return Response(HttpStatusCode.OK, result);
+    }
 }

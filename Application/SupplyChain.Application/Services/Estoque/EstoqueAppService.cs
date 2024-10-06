@@ -105,11 +105,30 @@ public partial class EstoqueAppService : IEstoqueAppService
         return _mapper.Map<CadastrarSaidaViewModel>(saida);
     }
 
+    /// <inheritdoc />
     public IEnumerable<ObterLocaisDeEstoqueViewModel> ObterLocaisDoEstoqueDaMercadoria(Guid mercadoriaId,
         int? skip = null, int? take = null)
     {
         var locais = _repository.ObterListagemDeLocais(mercadoriaId, skip, take);
 
         return _mapper.Map<IEnumerable<ObterLocaisDeEstoqueViewModel>>(locais);
+    }
+
+    /// <inheritdoc />
+    public Dictionary<string, TotaisMensaisViewModel>? ObterRelatorioAnual(Guid mercadoriaId, int ano)
+    {
+        if (ano < 1900 || ano > DateTime.Now.Year)
+        {
+            _bus.Notify.NewNotification("Erro", "O ano precisa estar entre 1900 e o ano atual");
+            return null;
+        }
+        
+        var totaisMensais = GerarDicionarioDeTotaisMensais(out var cultura);
+
+        AtualizarTotaisEntradasPorMes(cultura, totaisMensais, mercadoriaId, ano);
+        
+        AtualizarTotaisSaidasPorMes(cultura, totaisMensais,  mercadoriaId, ano);
+
+        return totaisMensais;
     }
 }
