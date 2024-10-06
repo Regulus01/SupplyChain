@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
@@ -163,6 +162,5 @@ public partial class EstoqueAppService : IEstoqueAppService
                                                     includes: y => y.Include(i => i.Mercadoria)).ToList();
 
         return _mapper.Map<IEnumerable<ObterSaidasMensaisViewModel>>(saidas);
-        ;
     }
 }
