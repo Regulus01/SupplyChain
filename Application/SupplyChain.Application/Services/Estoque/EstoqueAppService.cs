@@ -141,9 +141,10 @@ public partial class EstoqueAppService : IEstoqueAppService
         if (_bus.Notify.HasNotifications())
             return new List<ObterEntradasMensaisViewModel>();
 
-        var entradas = _repository.Query<Entrada>(x => x.DataDaEntrada.Year == ano &&
+        var entradas = _repository.Query<Entrada>(x => x.MercadoriaId.Equals(mercadoriaId) &&
+                                                       x.DataDaEntrada.Year == ano &&
                                                        x.DataDaEntrada.Month == mes,
-                                                  includes: y => y.Include(i => i.Mercadoria)).ToList();
+                                                       includes: y => y.Include(i => i.Mercadoria)).ToList();
 
         return _mapper.Map<IEnumerable<ObterEntradasMensaisViewModel>>(entradas);
     }
@@ -156,9 +157,10 @@ public partial class EstoqueAppService : IEstoqueAppService
         if (_bus.Notify.HasNotifications())
             return new List<ObterSaidasMensaisViewModel>();
 
-        var saidas = _repository.Query<Saida>(x => x.DataDaSaida.Year == ano &&
-                                                   x.DataDaSaida.Month == mes,
-                                              includes: y => y.Include(i => i.Mercadoria)).ToList();
+        var saidas = _repository.Query<Saida>(x =>  x.MercadoriaId.Equals(mercadoriaId) &&
+                                                    x.DataDaSaida.Year == ano &&
+                                                    x.DataDaSaida.Month == mes,
+                                                    includes: y => y.Include(i => i.Mercadoria)).ToList();
 
         return _mapper.Map<IEnumerable<ObterSaidasMensaisViewModel>>(saidas);
         ;
