@@ -3,9 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SupplyChain.Application.Interfaces;
 using SupplyChain.Application.ValueObjects.Dto.Estoque;
-using SupplyChain.Application.ValueObjects.Dto.Mercadoria;
 using SupplyChain.Application.ValueObjects.ViewModels.Estoque;
-using SupplyChain.Application.ValueObjects.ViewModels.Mercadoria;
 using SupplyChain.Domain.Interface.Notification;
 using SupplyChain.Infra.CrossCutting.Controller;
 
@@ -15,12 +13,12 @@ namespace SupplyChain.Api.Controllers;
 public class EstoqueController : BaseController
 {
     private readonly IEstoqueAppService _estoqueAppService;
-    
+
     public EstoqueController(INotify notify, IEstoqueAppService estoqueAppService) : base(notify)
     {
         _estoqueAppService = estoqueAppService;
     }
-        
+
     /// <summary>
     /// Cadastra um novo estoque no sistema
     /// </summary>
@@ -38,7 +36,7 @@ public class EstoqueController : BaseController
 
         return Response(HttpStatusCode.Created, result);
     }
-    
+
     /// <summary>
     /// Insere uma entrada em no sistema 
     /// </summary>
@@ -57,7 +55,7 @@ public class EstoqueController : BaseController
 
         return Response(HttpStatusCode.Created, result);
     }
-    
+
     /// <summary>
     /// Insere uma nova saída no sistema
     /// </summary>
@@ -109,9 +107,47 @@ public class EstoqueController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet]
     [Route("Relatorio/{mercadoriaId:guid}/{ano:int}")]
-    public IActionResult ObterEntradas([FromRoute] Guid mercadoriaId, [FromRoute][Required] int ano)
+    public IActionResult ObterRelatorioAnual([FromRoute] [Required] Guid mercadoriaId, [FromRoute] [Required] int ano)
     {
         var result = _estoqueAppService.ObterRelatorioAnual(mercadoriaId, ano);
+
+        return Response(HttpStatusCode.OK, result);
+    }
+
+    /// <summary>
+    /// Obtem as entradas mensais de uma mercadoria e um ano especifico
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="mes">Mes</param>
+    /// <param name="ano">Ano</param>
+    /// <returns>Lista com as entradas do mes e ano do filtro</returns>
+    [ProducesResponseType(typeof(ObterEntradasMensaisViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet]
+    [Route("Entradas/{mercadoriaId:guid}/{ano:int}/{mes:int}")]
+    public IActionResult ObterEntradasMensais([FromRoute] [Required] Guid mercadoriaId, [FromRoute] [Required] int ano, 
+        [FromRoute] [Required] int mes)
+    {
+        var result = _estoqueAppService.ObterEntradasMensais(mercadoriaId, ano, mes);
+
+        return Response(HttpStatusCode.OK, result);
+    }
+
+    /// <summary>
+    /// Obtem as saidas mensais de uma mercadoria e um ano especifico
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="mes">Mes</param>
+    /// <param name="ano">Ano</param>
+    /// <returns>Lista com as saidas do mes e ano do filtro</returns>
+    [ProducesResponseType(typeof(ObterSaidasMensaisViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpGet]
+    [Route("Saidas/{mercadoriaId:guid}/{ano:int}/{mes:int}")]
+    public IActionResult ObterSaidasMensais([FromRoute] [Required] Guid mercadoriaId, [FromRoute] [Required] int ano, 
+        [FromRoute] [Required] int mes)
+    {
+        var result = _estoqueAppService.ObterSaidasMensais(mercadoriaId, ano, mes);
 
         return Response(HttpStatusCode.OK, result);
     }

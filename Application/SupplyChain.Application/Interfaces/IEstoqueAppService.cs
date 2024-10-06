@@ -55,4 +55,22 @@ public interface IEstoqueAppService
     /// </returns>
     Dictionary<string, TotaisMensaisViewModel>? ObterRelatorioAnual(Guid mercadoriaId, int ano);
 
+    /// <summary>
+    /// Obtem as entradas do mes e ano escolhidos de uma mercadoria
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="ano">Ano para filtragem</param>
+    /// <param name="mes">mes para filtragem</param>
+    /// <returns>Lista com entradas</returns>
+    IEnumerable<ObterEntradasMensaisViewModel> ObterEntradasMensais(Guid mercadoriaId, int ano, int mes);
+    
+    /// <summary>
+    /// Obtem as saidas do mes e ano escolhidos de uma mercadoria
+    /// </summary>
+    /// <param name="mercadoriaId">Id da mercadoria</param>
+    /// <param name="ano">Ano para filtragem</param>
+    /// <param name="mes">mes para filtragem</param>
+    /// <returns>Lista com saidas</returns>
+    IEnumerable<ObterSaidasMensaisViewModel> ObterSaidasMensais(Guid mercadoriaId, int ano, int mes);
+
 }

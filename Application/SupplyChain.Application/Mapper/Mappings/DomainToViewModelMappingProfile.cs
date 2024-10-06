@@ -21,10 +21,8 @@ public class DomainToViewModelMappingProfile : Profile
     private void MercadoriaMap()
     {
         CreateMap<Mercadoria, CriarMercadoriaViewModel>()
-            .ForMember(x => x.TipoDeMercadoria, opt =>
-            {
-                opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDoTipoMercadoria"]); 
-            });
+            .ForMember(x => x.TipoDeMercadoria,
+                opt => { opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDoTipoMercadoria"]); });
     }
 
     /// <summary>
@@ -41,11 +39,17 @@ public class DomainToViewModelMappingProfile : Profile
     private void EstoqueMap()
     {
         CreateMap<Estoque, CadastrarEstoqueViewModel>();
+        CreateMap<Entrada, ObterEntradasMensaisViewModel>()
+            .ForMember(x => x.Mercadoria, opt => opt.MapFrom(x => x.Mercadoria.Nome))
+            .ForMember(x => x.DataDaEntrada, opt => opt.MapFrom(x => x.DataDaEntrada.Date));
+
         CreateMap<Saida, CadastrarSaidaViewModel>();
+        CreateMap<Saida, ObterSaidasMensaisViewModel>()
+            .ForMember(x => x.Mercadoria, opt => opt.MapFrom(x => x.Mercadoria.Nome))
+            .ForMember(x => x.DataDaSaida, opt => opt.MapFrom(x => x.DataDaSaida.Date));
+        
         CreateMap<Entrada, CadastrarEntradaViewModel>()
-            .ForMember(x => x.NomeDaMercadoria, opt =>
-            {
-                opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDaMercadoria"]); 
-            });
+            .ForMember(x => x.NomeDaMercadoria,
+                opt => { opt.MapFrom((_, _, _, ctx) => ctx.Items["NomeDaMercadoria"]); });
     }
 }

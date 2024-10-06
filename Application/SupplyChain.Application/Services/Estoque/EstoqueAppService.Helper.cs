@@ -222,4 +222,23 @@ public partial class EstoqueAppService
 
         return meses;
     }
+    
+    /// <summary>
+    /// Valida se o mes e ano estão dentro do permitido
+    /// </summary>
+    /// <param name="ano">ano a ser validado</param>
+    /// <param name="mes">mes para validação</param>
+    private void ValidarMesEAno(int ano, int mes)
+    {
+        if (ano < 1900 || ano > DateTime.Now.Year)
+        {
+            _bus.Notify.NewNotification("Erro", "O ano precisa estar entre 1900 e o ano atual");
+        }
+
+        if (mes is < 1 or > 12)
+        {
+            _bus.Notify.NewNotification("Erro", "O mes precisa estar entre 1 e 12");
+        }
+    }
+
 }
