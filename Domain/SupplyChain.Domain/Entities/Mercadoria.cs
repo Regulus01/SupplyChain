@@ -1,5 +1,6 @@
 ﻿using SupplyChain.Domain.Entities.Base;
 using SupplyChain.Domain.Resourcers;
+using NotificationDomain = SupplyChain.Domain.Notification.Notification;
 
 namespace SupplyChain.Domain.Entities;
 
@@ -25,7 +26,7 @@ public class Mercadoria : BaseEntity
         TipoMercadoriaId = tipoMercadoriaId;
     }
     
-    public override (bool IsValid, IDictionary<string, string> Erros) Validate()
+    public override (bool IsValid, IEnumerable<NotificationDomain> Erros) Validate()
     {
         var erros = ValidarCampos();
 
@@ -36,9 +37,9 @@ public class Mercadoria : BaseEntity
     /// Valida os campos da entidade e adiciona uma mensagem de erro no dicionário caso houver.
     /// </summary>
     /// <returns>Dicionario com mensagem de erros</returns>
-    private Dictionary<string, string> ValidarCampos()
+    private List<NotificationDomain> ValidarCampos()
     {
-        var erros = new Dictionary<string, string>();
+        var erros = new List<NotificationDomain>();
         
         ValidarCampoObrigatorio(NumeroDeRegistro, ErrorMessage.MER_NUM_REGISTRO_COM_ESPACOS, erros);
         ValidarCampoObrigatorio(Nome, ErrorMessage.MER_NOME_VAZIO, erros);
@@ -53,11 +54,12 @@ public class Mercadoria : BaseEntity
     /// Realiza validações para o tipo de mercadoria
     /// </summary>
     /// <param name="erros">Dicionário que armazena os códigos e mensagens de erro encontrados durante a validação</param>
-    private void ValidarTipoMercadoria(Dictionary<string, string> erros)
+    private void ValidarTipoMercadoria(List<NotificationDomain> erros)
     {
         if (TipoMercadoriaId == Guid.Empty)
         {
-            erros.Add(ErrorMessage.MER_TIPO_MERCADORIA_VAZIO.Code, ErrorMessage.MER_TIPO_MERCADORIA_VAZIO.Message);
+            erros.Add(new NotificationDomain(ErrorMessage.MER_TIPO_MERCADORIA_VAZIO.Code, 
+                                             ErrorMessage.MER_TIPO_MERCADORIA_VAZIO.Message));
         }
     }
 
@@ -68,11 +70,11 @@ public class Mercadoria : BaseEntity
     /// <param name="errorMessage">Messagem de erro a ser armazenada caso o campo seja invalido </param>
     /// <param name="erros">Dicionário que armazena os códigos e mensagens de erro encontrados durante a validação</param>
     private static void ValidarCampoObrigatorio(string campo, (string Code, string Message) errorMessage, 
-        Dictionary<string, string> erros)
+        List<NotificationDomain> erros)
     {
         if (string.IsNullOrWhiteSpace(campo))
         {
-            erros.Add(errorMessage.Code, errorMessage.Message);
+            erros.Add(new NotificationDomain(errorMessage.Code, errorMessage.Message));
         }
     }
 }

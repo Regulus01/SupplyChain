@@ -1,4 +1,5 @@
 ﻿using SupplyChain.Domain.Entities.Base;
+using NotificationDomain = SupplyChain.Domain.Notification.Notification;
 
 namespace SupplyChain.Domain.Entities;
 
@@ -19,13 +20,13 @@ public class Entrada : BaseEntity
         MercadoriaId = mercadoriaId;
     }
     
-    public override (bool IsValid, IDictionary<string, string> Erros) Validate()
+    public override (bool IsValid, IEnumerable<NotificationDomain> Erros) Validate()
     {
-        var erros = new Dictionary<string, string>();
+        var erros = new List<NotificationDomain>();
 
         if (Quantidade < 1)
         {
-            erros.Add("Erro", "A quantidade não pode ser menor que 1");
+            erros.Add(new NotificationDomain("Erro", "A quantidade não pode ser menor que 1"));
         }
         
         return (erros.Count == 0, erros);

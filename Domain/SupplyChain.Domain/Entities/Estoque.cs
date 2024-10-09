@@ -1,4 +1,5 @@
 ﻿using SupplyChain.Domain.Entities.Base;
+using NotificationDomain = SupplyChain.Domain.Notification.Notification;
 
 namespace SupplyChain.Domain.Entities;
 
@@ -27,12 +28,12 @@ public class Estoque : BaseEntity
         Quantidade -= quantidade;
     }
     
-    public override (bool IsValid, IDictionary<string, string> Erros) Validate()
+    public override (bool IsValid, IEnumerable<NotificationDomain> Erros) Validate()
     {
-        var erros = new Dictionary<string, string>();
+        var erros = new List<NotificationDomain>();
         
         if(Guid.Empty == MercadoriaId)
-            erros.Add("Erro", "A mercadoria deve ser informada.");
+            erros.Add(new NotificationDomain("Erro", "A mercadoria deve ser informada."));
         
         return (erros.Count == 0, erros); 
     }

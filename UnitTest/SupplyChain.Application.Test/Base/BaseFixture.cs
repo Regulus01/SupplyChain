@@ -2,6 +2,7 @@
 using Moq.AutoMock;
 using SupplyChain.Domain.Interface.Base;
 using SupplyChain.Domain.Interface.Notification;
+using SupplyChain.Domain.Notification;
 
 namespace SupplyChain.Application.Test.Base;
 
@@ -26,7 +27,7 @@ public class BaseFixture
     public void NeverNotifications()
     {
         Mocker.GetMock<INotify>()
-            .Verify(x => x.NewNotification(It.IsAny<IDictionary<string, string>>()),
+            .Verify(x => x.NewNotification(It.IsAny<IEnumerable<Notification>>()),
                 Times.Never);
 
         Mocker.GetMock<INotify>()

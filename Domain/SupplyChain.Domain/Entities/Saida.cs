@@ -1,4 +1,5 @@
 ﻿using SupplyChain.Domain.Entities.Base;
+using NotificationDomain = SupplyChain.Domain.Notification.Notification;
 
 namespace SupplyChain.Domain.Entities;
 
@@ -19,9 +20,9 @@ public class Saida : BaseEntity
         MercadoriaId = mercadoriaId;
     }
     
-    public override (bool IsValid, IDictionary<string, string> Erros) Validate()
+    public override (bool IsValid, IEnumerable<NotificationDomain> Erros) Validate()
     {
-        var erros = new Dictionary<string, string>();
+        var erros = new List<NotificationDomain>();
         
         return (erros.Count == 0, erros); 
     }
